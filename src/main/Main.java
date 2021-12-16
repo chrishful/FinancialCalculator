@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -35,8 +37,9 @@ public class Main extends Application {
         setInterestRate.setMajorTickUnit(25f);
         setInterestRate.adjustValue(100);
         Label interestLabel = new Label("Interest amount %: " + setInterestRate.getValue());
+        Label toggleLabel = new Label("Press Shift to toggle");
         interestLabel.setStyle("-fx-text-fill:white;");
-        root.getChildren().addAll(answer, monthLabel, principalLabel, go, compound, setInterestRate, interestLabel, principalAmount, timeInMonths);
+        root.getChildren().addAll(toggleLabel, answer, monthLabel, principalLabel, go, compound, setInterestRate, interestLabel, principalAmount, timeInMonths);
         setInterestRate.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -61,6 +64,14 @@ public class Main extends Application {
             }
         });
 
+        root.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if(event.getCode() == KeyCode.SHIFT){
+                compound.fire();
+                event.consume();
+            }
+
+        });
+
         AnchorPane.setLeftAnchor(principalAmount, 15.0);
         AnchorPane.setLeftAnchor(timeInMonths, 180.0);
         AnchorPane.setTopAnchor(principalAmount, 50.0);
@@ -81,6 +92,8 @@ public class Main extends Application {
 
         AnchorPane.setLeftAnchor(compound, 145.0);
         AnchorPane.setTopAnchor(compound, 180.0);
+        AnchorPane.setLeftAnchor(toggleLabel, 135.0);
+        AnchorPane.setTopAnchor(toggleLabel, 160.0);
 
         AnchorPane.setLeftAnchor(interestLabel, 130.0);
         AnchorPane.setTopAnchor(interestLabel, 100.0);
